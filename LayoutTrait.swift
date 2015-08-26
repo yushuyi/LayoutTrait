@@ -45,17 +45,55 @@ extension UITraitCollection {
 
 @available(iOS 8.0, *)
 extension UITraitCollection {
-    class func wCompact_hCompactTraitCollection () -> UITraitCollection {
-        let wCompact = UITraitCollection(horizontalSizeClass: .Compact)
-        let hCompact = UITraitCollection(verticalSizeClass: .Compact)
-        return UITraitCollection(traitsFromCollections: [wCompact,hCompact])
+    class func wCompact_hCompact() -> UITraitCollection {
+        let wSizeClass = UIUserInterfaceSizeClass.Compact
+        let hSizeClass = UIUserInterfaceSizeClass.Compact
+        return generateTrait([wSizeClass,hSizeClass])
     }
     
-    class func wRegular_hRegularTraitCollection () -> UITraitCollection {
-        let wCompact = UITraitCollection(horizontalSizeClass: .Regular)
-        let hCompact = UITraitCollection(verticalSizeClass: .Regular)
-        return UITraitCollection(traitsFromCollections: [wCompact,hCompact])
+    class func wCompact_hRegular() -> UITraitCollection {
+        let wSizeClass = UIUserInterfaceSizeClass.Compact
+        let hSizeClass = UIUserInterfaceSizeClass.Regular
+        return generateTrait([wSizeClass,hSizeClass])
     }
+    
+    class func wCompact_hAny() -> UITraitCollection {
+        let wSizeClass = UIUserInterfaceSizeClass.Compact
+        let hSizeClass = UIUserInterfaceSizeClass.Unspecified
+        return generateTrait([wSizeClass,hSizeClass])
+    }
+    
+    class func wRegular_hRegular() -> UITraitCollection {
+        let wSizeClass = UIUserInterfaceSizeClass.Regular
+        let hSizeClass = UIUserInterfaceSizeClass.Regular
+        return generateTrait([wSizeClass,hSizeClass])
+    }
+    
+    class func wRegular_hCompact() -> UITraitCollection {
+        let wSizeClass = UIUserInterfaceSizeClass.Regular
+        let hSizeClass = UIUserInterfaceSizeClass.Compact
+        return generateTrait([wSizeClass,hSizeClass])
+    }
+    
+    class func wRegular_hAny() -> UITraitCollection {
+        let wSizeClass = UIUserInterfaceSizeClass.Regular
+        let hSizeClass = UIUserInterfaceSizeClass.Unspecified
+        return generateTrait([wSizeClass,hSizeClass])
+    }
+    
+    class func wAny_hAny() -> UITraitCollection {
+        let wSizeClass = UIUserInterfaceSizeClass.Unspecified
+        let hSizeClass = UIUserInterfaceSizeClass.Unspecified
+        return generateTrait([wSizeClass,hSizeClass])
+    }
+    
+    private class func generateTrait(whSizeClass : [UIUserInterfaceSizeClass]) -> UITraitCollection {
+        let wCollection = UITraitCollection(horizontalSizeClass: whSizeClass[0])
+        let hCollection = UITraitCollection(verticalSizeClass: whSizeClass[1])
+        return UITraitCollection(traitsFromCollections: [wCollection,hCollection])
+    }
+    
+    
 }
 
 
