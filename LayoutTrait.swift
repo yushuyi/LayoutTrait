@@ -111,9 +111,38 @@ enum LayoutTrait : Int {
 
 @available(iOS 9.0, *)
 func currentLayoutTrait() -> LayoutTrait {
+    
+    if UIDevice.currentDevice().userInterfaceIdiom != UIUserInterfaceIdiom.Pad {
+        return .None
+    }
+    
     let windowSize = UIApplication.sharedApplication().keyWindow?.bounds.size ?? CGSizeZero
-    let sizeTuple = (windowSize.width,windowSize.height)
-    switch sizeTuple {
+    
+    if CGSizeEqualToSize(windowSize, CGSizeZero) {
+        return .None
+    }
+    
+    let screenSize = UIScreen.mainScreen().bounds.size
+    if CGSizeEqualToSize(screenSize, CGSizeMake(1366, 1024)) || CGSizeEqualToSize(screenSize, CGSizeMake(1024, 1366)) {
+        
+        let sizeTuple = (windowSize.width,windowSize.height)
+        switch sizeTuple {
+            case (981,1024):
+                return .HorizontalRegular
+            case (678,1024):
+                return .HorizontalCenter
+            case (375,1024):
+                return .HorizontalCompact
+            case (375, 1366):
+                return .VerticalCompact
+            case (639, 1366):
+                return .VerticalRegular
+            default:
+                return .None
+        }
+    }else {
+        let sizeTuple = (windowSize.width,windowSize.height)
+        switch sizeTuple {
         case (694,768):
             return .HorizontalRegular
         case (507,768):
@@ -126,6 +155,6 @@ func currentLayoutTrait() -> LayoutTrait {
             return .VerticalRegular
         default:
             return .None
+        }
     }
-    
 }
