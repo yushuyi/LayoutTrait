@@ -100,7 +100,8 @@ extension UITraitCollection {
 @available(iOS 9.0, *)
 enum LayoutTrait : Int {
 
-    case HorizontalRegular = 0    //横屏 2/3
+    case FullScreen = 0
+    case HorizontalRegular     //横屏 2/3
     case HorizontalCenter         //横屏 1/2
     case HorizontalCompact        //横屏 1/3
     
@@ -110,6 +111,7 @@ enum LayoutTrait : Int {
 }
 
 @available(iOS 9.0, *)
+
 func currentLayoutTrait() -> LayoutTrait {
     
     if UIDevice.currentDevice().userInterfaceIdiom != UIUserInterfaceIdiom.Pad {
@@ -117,8 +119,8 @@ func currentLayoutTrait() -> LayoutTrait {
     }
     
     let windowSize = UIApplication.sharedApplication().keyWindow?.bounds.size ?? CGSizeZero
-    
     if CGSizeEqualToSize(windowSize, CGSizeZero) {
+        //如果windowSize 等于 CGSizeZero 应该 keyWindow 初始化时  没有直接使用 init 初始化导致
         return .None
     }
     
@@ -137,22 +139,30 @@ func currentLayoutTrait() -> LayoutTrait {
                 return .VerticalCompact
             case (639, 1366):
                 return .VerticalRegular
+            case (1366, 1024):
+                return .FullScreen
+            case (1024, 1366):
+                return .FullScreen
             default:
                 return .None
         }
     }else {
         let sizeTuple = (windowSize.width,windowSize.height)
         switch sizeTuple {
-        case (694,768):
-            return .HorizontalRegular
-        case (507,768):
-            return .HorizontalCenter
-        case (320,768):
-            return .HorizontalCompact
-        case (320,1024):
-            return .VerticalCompact
-        case (438,1024):
-            return .VerticalRegular
+            case (694,768):
+                return .HorizontalRegular
+            case (507,768):
+                return .HorizontalCenter
+            case (320,768):
+                return .HorizontalCompact
+            case (320,1024):
+                return .VerticalCompact
+            case (438,1024):
+                return .VerticalRegular
+            case (1024, 768):
+                return .FullScreen
+            case (768, 1024):
+                return .FullScreen
         default:
             return .None
         }
