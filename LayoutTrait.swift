@@ -146,7 +146,7 @@ func currentLayoutTrait() -> LayoutTrait {
             default:
                 return .None
         }
-    }else {
+    } else {
         let sizeTuple = (windowSize.width,windowSize.height)
         switch sizeTuple {
             case (694,768):
